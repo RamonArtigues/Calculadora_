@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
  */
 public class Calculadora {
 
-	//Variable que guarda la operacion que estamos haciendo
+	//Variable que guarda la operación que estamos haciendo
 	private String op;
 	//Variable qque guarda la primera y segunda cadena de numros de la operacion y el resultado anterior
 	private String nums,num1,num2,numAnt;
@@ -151,8 +151,7 @@ public class Calculadora {
 				}
 
 			}
-		});
-		
+		});		
 		ventana.btnRaiz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				
