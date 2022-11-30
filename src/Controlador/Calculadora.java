@@ -26,7 +26,6 @@ public class Calculadora {
 	//Variable que mira si un numero tiene punto
 	private boolean punto = false;
 	// Aqui asignaremos nuestro formato para el resultado y no quede tan largo
-	DecimalFormat df;
 
 	// Variable de la vista de la calculadora
 	Ventana ventana;
