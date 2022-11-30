@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DecimalFormat;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
@@ -35,14 +37,14 @@ public class Calculadora {
 		 * Y el correcto fiuncionamiento de la calculadora
 		 */
 
-		nums="0";
+		nums="";
 		punto=false;
 		num1="";
+		num2=" ";
 		op="";
 		numAnt="";
 		//Instanciamos nuestra ventana
 		ventana = new Ventana();
-
 		// Asignando el metodo de añadir numeros a cada botón i el punto
 		ventana.btn0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -98,7 +100,8 @@ public class Calculadora {
 				nums="0";
 				punto=false;
 				num1="";
-				num2="";
+				num2=" ";
+				op="";
 			}
 		});
 		
@@ -185,24 +188,38 @@ public class Calculadora {
 	// Metodo que guarda o procesa la operación que estamos haciendo y guarda las operaciones en el historial	
 	public void calcular(String op) {
 		
-		if(!ventana.lblNumeros.getText().equals("0") && this.op.equals("")) {
-			num1=ventana.lblNumeros.getText();
-			this.op=op;
-			ventana.lblHistorial.setText(num1 + op);
-			ventana.lblNumeros.setText("0");
-		}else {
-			//Guardando el resultado anterior
-			numAnt=num1;
-			num2=ventana.lblNumeros.getText();
-			// Guardamos en el historial la operacion final
-			ventana.lblHistorial.setText(this.num1+this.op+this.num2 + "=" + operacion(num1,this.op,num2).toPlainString());			
-			//Reseteamos etiqueta de numeros
-			ventana.lblNumeros.setText("0");
-			//Asignamos el total al primer numero para seguir haciendo calculos
-			num1=operacion(num1,this.op,num2).toPlainString();
+		// En caso de que haya error resetea todas las variables y muestra un mensaje con "Error en la operación"
+		try {
+			//Evalua si en el label noay solo un numero 0 y si no hay una operación asignada 
+			if(!ventana.lblNumeros.getText().equals("0") && this.op.equals("")) {
+				num1=ventana.lblNumeros.getText();
+				this.op=op;
+				ventana.lblHistorial.setText(num1 + op);
+				ventana.lblNumeros.setText("0");
+			//Evalua si el 2 numero existe para hacer la operación o si la operación es una raiza ya que no necesita 2 numeros
+			}else if(!num1.equals("")) {
+				//Guardando el resultado anterior
+				numAnt=num1;
+				//Cogiendo el segundo jnumero que usamos para la operación
+				num2=ventana.lblNumeros.getText();
+				// Guardamos en el historial la operacion final
+				ventana.lblHistorial.setText(this.num1+this.op+this.num2 + "=" + operacion(num1,this.op,num2).toPlainString());	
+				//Reseteamos etiqueta de numeros
+				ventana.lblNumeros.setText("0");
+				//Asignamos el total al primer numero para seguir haciendo calculos
+				num1=operacion(num1,this.op,num2).toPlainString();
+				
+				
+			}
+		} catch (Exception e) {
+			// Clicka en el boton CE que borra todas las variables
+			ventana.btnCE.doClick();
+			//Muestra el error de operación
+			JOptionPane.showMessageDialog(ventana, "Error en la operación");
 			
+			//Imprime el error por consola
+			e.printStackTrace();
 			
-			this.op=(!op.equals("√"))? op:"";			
 		}
 	}
 	// Se encargara de hacer la operacion de los dos numeros 
