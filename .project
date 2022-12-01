@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/Modelo/Tabla.java</name>
+			<type>1</type>
+			<location>C:/Users/alumno/Downloads/Tabla.java</location>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -7,9 +7,12 @@
 import Vista.Ventana;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import Controlador.Calculadora;
+import Modelo.Conexion;
 
 /**
  *
@@ -56,7 +59,37 @@ public class Main {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Calculadora();
+            	String user;
+            	String pass;
+            	// Si la conexion no ha sido satisfactoria pide la contraseña y el usuario de la base de datos
+            	while(!Conexion.open()) {
+                	user=Conexion.login=JOptionPane.showInputDialog("Usuario de la bdd?");
+                	pass=Conexion.pass=JOptionPane.showInputDialog("Contraseña de la bdd?");
+                	if(user==null || pass==null)
+                    	JOptionPane.showMessageDialog(null, "Cancelado con exito");
+                		System.exit(0);
+            	}
+            	
+            	JOptionPane.showMessageDialog(null, "Conectado a la base de datos");
+            	//Lista las bases de datos que existen
+            	Conexion.listabd();            	
+            	//Mira si loa base de datos ya esta creada, si no te da opciones para crearla e importar datos de prueba
+            	if (Conexion.createDB("Operaciones")!=1) {
+					int resp;
+					resp = JOptionPane.showConfirmDialog(null, "Crear la base de datos y sus tablas?", null,JOptionPane.YES_NO_OPTION);
+					if (resp == 0) {
+						Conexion.open();
+						Conexion.createDB("Operaciones");
+						Conexion.addTable("Operacion");
+						Conexion.addColumn("Operacion", "Proceso", "varchar(100)");
+						Conexion.addColumn("Operacion", "Resultado", "varchar(100)");
+						resp = JOptionPane.showConfirmDialog(null, "Importar datos de prueba?", null,JOptionPane.YES_NO_OPTION);
+						if (resp == 0) Conexion.addScript("Ejemplos.sql");					
+					} 
+					
+					
+				}
+				new Calculadora();
             }
         });
     }
