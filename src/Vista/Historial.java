@@ -6,9 +6,11 @@
 package Vista;
 
 /**
- *
- * @author alumno
- */
+*
+* @author Ramon
+* @version 1.0
+* 
+*/
 public class Historial extends javax.swing.JFrame {
 
     /**

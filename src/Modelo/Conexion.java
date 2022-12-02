@@ -14,11 +14,16 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
 
-
+/**
+*
+* @author Ramon
+* @version 1.0
+* 
+*/
 public class Conexion {
 	public static String bd="";
 	public static String login="root";
-	public static String pass="";
+	public static String pass="12345678";
 	public static String host="localhost";
 	public static String url="";
 	public static ArrayList<String> bdds=new ArrayList<>();
@@ -35,8 +40,6 @@ public class Conexion {
 				return true;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("No se puede conectar!!!");
 			return false;
 		}
 		return true;

@@ -8,9 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- *
- * @author Ramon
- */
+*
+* @author Ramon
+* @version 1.0
+* 
+* Contiene la vista de nuestra calculadora i todos aquellos componentes<br>
+* SOLO contiene el apartado gráfico y no contiene ningún tipo de operacion
+*/
 public class Ventana extends javax.swing.JFrame {
 
 

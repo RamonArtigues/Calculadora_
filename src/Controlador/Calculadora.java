@@ -14,37 +14,50 @@ import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Usuario
- */
+*
+* @author Ramon
+* @version 1.0
+* 
+*/
 public class Calculadora {
 
-	//Variable que guarda la operación que estamos haciendo
+	/**Variable que guarda la operación que estamos haciendo*/
 	private String op;
-	//Variable qque guarda la primera y segunda cadena de numros de la operacion y el resultado anterior
+	
+	
+	/**Variable qque guarda la primera y segunda cadena de numros de la operacion y el resultado anterior*/
 	private String nums,num1,num2,numAnt;
-	//Variable que mira si un numero tiene punto
+	
+	
+	/**Variable que mira si un numero tiene punto*/
 	private boolean punto = false;
-	// Aqui asignaremos nuestro formato para el resultado y no quede tan largo
 
-	// Variable de la vista de la calculadora
+	/** Variable de la vista de la calculadora*/
 	Ventana ventana;
 
+	/**Controlador de la calculadora <br>
+	 * Se encarga de controlar todos los procesos matematicos que se hacen en nuestra calculadora<br>
+	 * y el tratamiento de variables de esta, de esta forma tenemos mejor control sobre el código<br>
+	 * y podemos diferenciar entre errores de vista o de controlador o modelo
+	 *  
+	 */
 	public Calculadora() {	
+		
+		
 		/* 
 		 * Iniciando el valpor de ls variables para no tener problemas con el nullPointerException
 		 * Y el correcto fiuncionamiento de la calculadora
 		 */
-
 		nums="";
 		punto=false;
 		num1="";
-		num2=" ";
+		num2="";
 		op="";
 		numAnt="";
-		//Instanciamos nuestra ventana
+		/**Instanciamos nuestra ventana*/
 		ventana = new Ventana();
-		// Asignando el metodo de añadir numeros a cada botón i el punto
+		
+		/** Asignando el metodo de añadir numeros a cada botón i el punto*/
 		ventana.btn0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addNumeros("0");
@@ -85,13 +98,14 @@ public class Calculadora {
 			public void actionPerformed(ActionEvent e) {
 				addNumeros("9");
 			}});
+		/**Llama al metodo existe punto(String) y si no existe lo añade */
 		ventana.btnPunt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				existePunto(ventana.lblNumeros.getText());
 				if(punto==false) addNumeros(".");
 				
 			}});
-		//Resetear todos los datos que tenemos actualmente
+		/**Resetear todos los datos que tenemos actualmente*/
 		ventana.btnCE.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana.lblNumeros.setText("0");
@@ -103,7 +117,7 @@ public class Calculadora {
 				op="";
 			}
 		});
-		
+
 		ventana.btnC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana.lblHistorial.setText(numAnt);
@@ -115,7 +129,7 @@ public class Calculadora {
 		});
 		
 		
-		//Eventos de las operaciones del boton
+		/**Eventos de las operaciones del boton*/
 		ventana.btnSumar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
 				calcular("+");				
@@ -137,9 +151,11 @@ public class Calculadora {
 			}});
 		ventana.btnIgual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
-				calcular(op);
+				calcular("=");
 				ventana.lblHistorial.setText(num1);	
 			}});
+		
+		/**Pasa nuestro numero a negativo y en caso de ser negativo lo pasa a positivo */
 		ventana.btnSigno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				if(ventana.lblNumeros.getText().charAt(0)!= '-') {
@@ -147,13 +163,14 @@ public class Calculadora {
 					ventana.lblNumeros.setText("-" + ventana.lblNumeros.getText());
 
 				}else {
-
+					/**Si no le quitamoes el primer digito que en este caso seria el "-" */
 					ventana.lblNumeros.setText(ventana.lblNumeros.getText().substring(1));
 
 				}
 
 			}
 		});		
+		
 		ventana.btnRaiz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				
@@ -162,7 +179,7 @@ public class Calculadora {
 		});}
 
 
-	// Metodo que añade los numeros a nuestra cadena de numeros
+	/** Metodo que adiere los numeros a nuestra cadena de numeros */
 	public void addNumeros(String n) {
 		if(ventana.lblNumeros.getText().equals("0") && !n.equals(".")) {
 			this.nums=n;
@@ -191,25 +208,41 @@ public class Calculadora {
 		try {
 			//Evalua si en el label noay solo un numero 0 y si no hay una operación asignada 
 			if(!ventana.lblNumeros.getText().equals("0") && this.op.equals("")) {
+				
 				num1=ventana.lblNumeros.getText();
+				
+				// En caso de que sea igual vuelve la operacion a null
+				
 				this.op=op;
+				
 				ventana.lblHistorial.setText(num1 + op);
+				
 				ventana.lblNumeros.setText("0");
-			//Evalua si el 2 numero existe para hacer la operación o si la operación es una raiza ya que no necesita 2 numeros
-			}else if(!num1.equals("")) {
+				
+			//Evalua si el numero 1 existe para hacer la operación i si no es un igual
+			}else if(!num1.equals("") && !this.op.equals("=")) {
 				//Guardando el resultado anterior
 				numAnt=num1;
-				//Cogiendo el segundo jnumero que usamos para la operación
+				//Cogiendo el segundo numero que usamos para la operación
 				num2=ventana.lblNumeros.getText();
+				
 				// Guardamos en el historial la operacion final
 				ventana.lblHistorial.setText(this.num1+this.op+this.num2 + "=" + operacion(num1,this.op,num2).toPlainString());	
-				//Reseteamos etiqueta de numeros
+				
+				/**Reseteamos etiqueta de numeros*/
 				ventana.lblNumeros.setText("0");
-				//Asignamos el total al primer numero para seguir haciendo calculos
+				
+				/**Asignamos el total al primer numero para seguir haciendo calculos*/
 				num1=operacion(num1,this.op,num2).toPlainString();
 				
 				
+			}else if(this.op.equals("=")) {
+				
+				
+				
+				this.op="";				
 			}
+			
 		} catch (Exception e) {
 			// Clicka en el boton CE que borra todas las variables
 			ventana.btnCE.doClick();
